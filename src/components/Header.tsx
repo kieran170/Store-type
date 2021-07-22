@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Menu, MenuItemProps } from 'semantic-ui-react';
 import {Link} from 'react-router-dom';
 
-import Strap from './Strap'
 
 export default function MenuBar() {
   const handleItemClick = (e: React.MouseEvent, { name }: MenuItemProps) => {
@@ -43,7 +42,6 @@ export default function MenuBar() {
             />
           </Menu.Menu>
         </Menu>
-        <Strap />
         </>
     )
 }

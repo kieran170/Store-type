@@ -1,0 +1,22 @@
+.strap-container {
+    padding-bottom: 20px;
+    padding-top: 20px
+}
+.list-container{
+    list-style-type: none;
+    border: 1px solid black;
+    padding-bottom: 10px;
+    width: 30%;
+    display: flex;
+    margin: 20px
+}
+.items-container {
+    display: flex;
+    justify-content: space-around;
+}
+.form-container{
+    width: 50%;
+    padding-left: 10px;
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
