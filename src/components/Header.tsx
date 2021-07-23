@@ -27,13 +27,6 @@ export default function MenuBar() {
           />
           <Menu.Menu position='right'>
             <Menu.Item
-              name='account'
-              active={activeItem === 'account'}
-              onClick={handleItemClick}
-              as={Link}
-              to={'/account'}
-            />
-            <Menu.Item
               name='checkout'
               active={activeItem === 'checkout'}
               onClick={handleItemClick}

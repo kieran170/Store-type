@@ -31,8 +31,8 @@ export default function MenuBar() {
             onClick={handleItemClick}
           />
           <Menu.Item
-            name='Children'
-            active={activeItem === 'Children' || userContext?.state.selectedPage === 'Children'}
+            name='Electronics'
+            active={activeItem === 'Electronics' || userContext?.state.selectedPage === 'Electronics'}
             onClick={handleItemClick}
           />
       </Menu>

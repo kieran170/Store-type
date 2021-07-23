@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Header, Modal } from 'semantic-ui-react';
 import { UserContext } from '../../context';
-import { Item } from '../../types/contextTypes'
+import { Item } from '../../types/contextTypes';
 
 
 function ModalExampleModal() {
@@ -32,7 +32,7 @@ function ModalExampleModal() {
         <Modal.Description>
           <Header>You currently have {length} items in you basket</Header>
           {items.map((item) => {
-             return <p>{item.name}</p>
+             return <p key={item.name}>{item.name}</p>
           })}
           <p>Total: ${userContext?.state.total} </p>
           <p>Does this look correct?</p>
