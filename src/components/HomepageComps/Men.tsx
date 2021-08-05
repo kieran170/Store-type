@@ -42,13 +42,13 @@ export default function Men(props: IProps) {
 
     const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.value.length > 0) {
+            const filtered: Product[] = []
             newItems.forEach((item) => {
                 if (item.title.startsWith(e.target.value)){
-                    console.log(item)
-                    setFilteredItems([...filteredItems, item])
+                    filtered.push(item)
                 }
-                
             })
+            setFilteredItems(filtered)
         }
         else {
             setFilteredItems([])
