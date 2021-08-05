@@ -57,17 +57,17 @@ export default function Men(props: IProps) {
         }   
     }
 
-    const handleReset = () => {
-        setFilteredItems([])
-        setValue('')
+    const removeText = () => {
+        setValue('');
+        setFilteredItems([]);
     }
-    
+
 
     return (
         <div className='page-container'>
             <div className='button-container'>
                 <BasketModel/>
-                <Input value={value} focus placeholder='Search' onChange={handleSearch} onBlur={handleReset}/>
+                <Input value={value} focus placeholder='Search' onChange={handleSearch}  action={{ icon: 'delete', onClick: () => removeText()}} />
             </div>
             <div className='items-container'>
                 {filteredItems.length === 0 && value === '' ? newItems.map((item, index) => {

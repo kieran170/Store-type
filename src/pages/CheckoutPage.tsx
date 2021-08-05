@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState} from 'react';
 import { Item } from '../types/contextTypes'
 import { UserContext } from '../context';
 import CheckoutForm from '../components/CheckoutComps/CheckoutForm';
+import { Form } from 'semantic-ui-react';
 
 
 export default function CheckoutPage() {
@@ -34,6 +35,12 @@ export default function CheckoutPage() {
             <div>
             <p>Your Total is ${userContext?.state.total}</p>
             </div>
+            <Form>
+                <Form.Field className='form-container'>
+                    <label>Discount Code</label>
+                    <input placeholder='Enter discount code' />
+                </Form.Field>
+            </Form>
             <CheckoutForm />
         </div>
     )

@@ -18,6 +18,7 @@ function ModalExampleModal() {
         setItems(Object.values(userContext?.state.basket))
   }
   }, [userContext])
+
   
 
   return (

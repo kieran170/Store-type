@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState} from 'react';
 import { Menu, MenuItemProps } from 'semantic-ui-react';
 import {Link} from 'react-router-dom';
 
@@ -14,6 +14,7 @@ export default function MenuBar() {
   const path = pathname === '/' ? 'home' : pathname.substr(1);
 
   const [activeItem, setActiveItem] = useState(path)
+
 
     return (
       <>
