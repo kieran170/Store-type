@@ -1,10 +1,12 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { Button } from 'semantic-ui-react';
+import { Button, Input} from 'semantic-ui-react';
+
 
 import { UserContext } from '../../context';
 import BasketModel from './BasketModel';
 import { Product } from '../../types/productTypes' 
 import * as api from '../../axios/api'
+
 
 interface IProps {
     items: string
@@ -15,11 +17,11 @@ export default function Men(props: IProps) {
     const {items} = props;
 
     const userContext = useContext(UserContext);
+    const [newItems, setItems] = useState<[] | Product[]>([]);
+    const [disabledBtn, setDisabled] = useState([-1]);
+    const [filteredItems, setFilteredItems] = useState<[] | Product[]>([])
 
-    const [newItems, setItems] = useState<[] | Product[]>([])
-
-    const addToBasket = (e: React.MouseEvent, item: Product ) => {
-        console.log(item.price)
+    const addToBasket = (e: React.MouseEvent, item: Product, index:number ) => {
         userContext?.dispatch({
             type: 'ADD_TO_BASKET',
             payload: {price: item.price, name: item.title},
@@ -29,6 +31,7 @@ export default function Men(props: IProps) {
             type: 'ADD_TO_TOTAL',
             number: item.price,
         })
+        setDisabled([item.id, ...disabledBtn])
     }
 
     useEffect(() => {
@@ -36,15 +39,32 @@ export default function Men(props: IProps) {
             setItems(data)
         })
     }, [items])
+
+    const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.value.length > 0) {
+            newItems.forEach((item) => {
+                if (item.title.startsWith(e.target.value)){
+                    console.log(item)
+                    setFilteredItems([...filteredItems, item])
+                }
+                
+            })
+        }
+        else {
+            setFilteredItems([])
+        }
+        
+    }
     
 
     return (
         <div className='page-container'>
             <div className='button-container'>
                 <BasketModel/>
+                <Input focus placeholder='Search' onChange={handleSearch} />
             </div>
             <div className='items-container'>
-                {newItems.map((item) => {
+                {filteredItems.length === 0 ? newItems.map((item, index) => {
                     return (
                         <div key={item.id} className='list-container'>
                             <li className='item-list-container'>
@@ -61,16 +81,48 @@ export default function Men(props: IProps) {
                                     <div style={{width: '50%'}}>
                                        {item.description} 
                                     </div>
+                                    <div className='add-to-basket-container'>
+                                        <Button disabled={disabledBtn.includes(item.id) && true} onClick={(e) => addToBasket(e, item, index)} animated='fade'>
+                                            <Button.Content visible>Add To Basket</Button.Content>
+                                            <Button.Content hidden>{`$${item.price}`}</Button.Content>
+                                        </Button>
+                                    </div>
                                 </ul>
-                                <Button style={{marginLeft: '30px'}} onClick={(e) => addToBasket(e, item)} animated='fade'>
-                                    <Button.Content visible>Add To Basket</Button.Content>
-                                    <Button.Content hidden>{`$${item.price}`}</Button.Content>
-                                </Button>
                             </li>     
                         </div>
                     )
-                })}
-            </div>           
+                })
+                : 
+                filteredItems.map((item, index) => {
+                    return (
+                        <div key={item.id} className='list-container'>
+                            <li className='item-list-container'>
+                                <ul className='list-item'>
+                                    <h3>{item.title}</h3>
+                                </ul>
+                                <ul>
+                                    <img style={{height: '100px'}} src={item.image} alt='product'/>
+                                </ul>
+                                <ul>
+                                    Price: ${item.price}
+                                </ul>
+                                <ul>
+                                    <div style={{width: '50%'}}>
+                                       {item.description} 
+                                    </div>
+                                    <div className='add-to-basket-container'>
+                                        <Button disabled={disabledBtn.includes(item.id) && true} onClick={(e) => addToBasket(e, item, index)} animated='fade'>
+                                            <Button.Content visible>Add To Basket</Button.Content>
+                                            <Button.Content hidden>{`$${item.price}`}</Button.Content>
+                                        </Button>
+                                    </div>
+                                </ul>
+                            </li>     
+                        </div>
+                    )
+                })
+                }
+            </div>       
         </div>
     )
 }
