@@ -46,7 +46,7 @@ export default function Men(props: IProps) {
         if (e.target.value.length > 0) {
             const filtered: Product[] = []
             newItems.forEach((item) => {
-                if (item.title.startsWith(e.target.value)){
+                if (item.title.startsWith(e.target.value.charAt(0).toUpperCase() + e.target.value.slice(1))){
                     filtered.push(item)
                 }
             })
@@ -70,7 +70,7 @@ export default function Men(props: IProps) {
                 <Input value={value} focus placeholder='Search' onChange={handleSearch} onBlur={handleReset}/>
             </div>
             <div className='items-container'>
-                {filteredItems.length === 0 ? newItems.map((item, index) => {
+                {filteredItems.length === 0 && value === '' ? newItems.map((item, index) => {
                     return (
                         <div key={item.id} className='list-container'>
                             <li className='item-list-container'>
@@ -98,7 +98,12 @@ export default function Men(props: IProps) {
                         </div>
                     )
                 })
-                : 
+                :
+                filteredItems.length === 0 && value !== '' ?
+                <div style={{textAlign: 'center', paddingTop: '50px'}}>
+                    <h3>No results Found, Please refine your search</h3>
+                </div>
+                :
                 filteredItems.map((item, index) => {
                     return (
                         <div key={item.id} className='list-container'>
