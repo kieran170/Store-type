@@ -1,19 +1,31 @@
-import React, { useState} from 'react';
+import React, { useState, useContext, useEffect} from 'react';
 import { Menu, MenuItemProps } from 'semantic-ui-react';
 import {Link} from 'react-router-dom';
 
+import { UserContext } from '../context';
+
 
 export default function MenuBar() {
+
   const handleItemClick = (e: React.MouseEvent, { name }: MenuItemProps) => {
     if(typeof name === 'string'){
       setActiveItem(name)
     }
   };
 
+  const userContext = useContext(UserContext)
   const pathname = window.location.pathname;
   const path = pathname === '/' ? 'home' : pathname.substr(1);
 
-  const [activeItem, setActiveItem] = useState(path)
+  const [activeItem, setActiveItem] = useState(path);
+  const [length, setLength] = useState(0);
+
+  useEffect(() => {
+    if(userContext){
+      setLength(Object.keys(userContext?.state.basket).length)
+}
+}, [userContext])
+
 
 
     return (
@@ -27,6 +39,10 @@ export default function MenuBar() {
             to={'/'}
           />
           <Menu.Menu position='right'>
+            <div className='basket-amount-container'>
+              <p className='basket-amount-item'>{length}</p>
+            </div>
+            
             <Menu.Item
               name='checkout'
               active={activeItem === 'checkout'}
@@ -34,6 +50,7 @@ export default function MenuBar() {
               as={Link}
               to={'/checkout'}
             />
+            
           </Menu.Menu>
         </Menu>
         </>

@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { Button, Input} from 'semantic-ui-react';
+import { Button, Input, Modal} from 'semantic-ui-react';
 
 
 import { UserContext } from '../../context';
@@ -19,10 +19,12 @@ export default function Men(props: IProps) {
     const userContext = useContext(UserContext);
     const [newItems, setItems] = useState<[] | Product[]>([]);
     const [disabledBtn, setDisabled] = useState([-1]);
-    const [filteredItems, setFilteredItems] = useState<[] | Product[]>([])
-    const [value, setValue] = useState('')
+    const [filteredItems, setFilteredItems] = useState<[] | Product[]>([]);
+    const [value, setValue] = useState('');
+    const [open, setOpen] = useState(false);
 
     const addToBasket = (e: React.MouseEvent, item: Product, index:number ) => {
+        setOpen(true)
         userContext?.dispatch({
             type: 'ADD_TO_BASKET',
             payload: {price: item.price, name: item.title},
@@ -94,7 +96,23 @@ export default function Men(props: IProps) {
                                         </Button>
                                     </div>
                                 </ul>
-                            </li>     
+                                <ul>
+                                    {open && 
+                                        <Modal 
+                                            onClose={() => setOpen(false)}
+                                            open={open === true}
+                                            trigger={<Button>Add To Basket</Button>}
+                                            >
+                                            <Modal.Header className='modal-container-text'>Congratulations</Modal.Header>
+                                            <Modal.Content >
+                                                <Modal.Description className='modal-container-text'>
+                                                    <p>Item Added To Basket</p>
+                                                </Modal.Description>
+                                            </Modal.Content>
+                                        </Modal>
+                                    }
+                                </ul>
+                            </li>   
                         </div>
                     )
                 })
@@ -128,12 +146,26 @@ export default function Men(props: IProps) {
                                         </Button>
                                     </div>
                                 </ul>
+                                {open && 
+                                        <Modal
+                                            onClose={() => setOpen(false)}
+                                            open={open === true}
+                                            trigger={<Button>Add To Basket</Button>}
+                                            >
+                                            <Modal.Header className='modal-container-text'>Congratulations</Modal.Header>
+                                            <Modal.Content >
+                                                <Modal.Description className='modal-container-text'>
+                                                    <p>Item Added To Basket</p>
+                                                </Modal.Description>
+                                            </Modal.Content>
+                                        </Modal>
+                                    }
                             </li>     
                         </div>
                     )
                 })
                 }
-            </div>       
+            </div>
         </div>
     )
 }

@@ -21,3 +21,16 @@
 .add-to-basket-container{
     margin-top: 30px;
 }
+.basket-amount-item {
+   background-color: blue;
+   color: white;
+   border-radius: 20px;
+   width: 30px;
+   text-align: center;
+}
+.basket-amount-container{
+    margin-top: 10px;
+}
+.modal-container-text{
+    text-align: center;
+}
