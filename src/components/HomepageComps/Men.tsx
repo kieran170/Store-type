@@ -20,6 +20,7 @@ export default function Men(props: IProps) {
     const [newItems, setItems] = useState<[] | Product[]>([]);
     const [disabledBtn, setDisabled] = useState([-1]);
     const [filteredItems, setFilteredItems] = useState<[] | Product[]>([])
+    const [value, setValue] = useState('')
 
     const addToBasket = (e: React.MouseEvent, item: Product, index:number ) => {
         userContext?.dispatch({
@@ -41,6 +42,7 @@ export default function Men(props: IProps) {
     }, [items])
 
     const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setValue(e.target.value)
         if (e.target.value.length > 0) {
             const filtered: Product[] = []
             newItems.forEach((item) => {
@@ -52,8 +54,12 @@ export default function Men(props: IProps) {
         }
         else {
             setFilteredItems([])
-        }
-        
+        }   
+    }
+
+    const handleReset = () => {
+        setFilteredItems([])
+        setValue('')
     }
     
 
@@ -61,7 +67,7 @@ export default function Men(props: IProps) {
         <div className='page-container'>
             <div className='button-container'>
                 <BasketModel/>
-                <Input focus placeholder='Search' onChange={handleSearch} />
+                <Input value={value} focus placeholder='Search' onChange={handleSearch} onBlur={handleReset}/>
             </div>
             <div className='items-container'>
                 {filteredItems.length === 0 ? newItems.map((item, index) => {
