@@ -21,10 +21,10 @@ export default function Men(props: IProps) {
     const [disabledBtn, setDisabled] = useState([-1]);
     const [filteredItems, setFilteredItems] = useState<[] | Product[]>([]);
     const [value, setValue] = useState('');
-    const [open, setOpen] = useState(false);
+    const [modalOpen, setModalOpen] = useState(false);
 
     const addToBasket = (e: React.MouseEvent, item: Product, index:number ) => {
-        setOpen(true)
+        setModalOpen(true)
         userContext?.dispatch({
             type: 'ADD_TO_BASKET',
             payload: {price: item.price, name: item.title},
@@ -72,99 +72,88 @@ export default function Men(props: IProps) {
                 <Input value={value} focus placeholder='Search' onChange={handleSearch}  action={{ icon: 'delete', onClick: () => removeText()}} />
             </div>
             <div className='items-container'>
-                {filteredItems.length === 0 && value === '' ? newItems.map((item, index) => {
-                    return (
-                        <div key={item.id} className='list-container'>
-                            <li className='item-list-container'>
-                                <ul className='list-item'>
-                                    <h3>{item.title}</h3>
-                                </ul>
-                                <ul>
-                                    <img style={{height: '100px'}} src={item.image} alt='product'/>
-                                </ul>
-                                <ul>
-                                    Price: ${item.price}
-                                </ul>
-                                <ul>
-                                    <div style={{width: '50%'}}>
-                                       {item.description} 
-                                    </div>
-                                    <div className='add-to-basket-container'>
-                                        <Button disabled={disabledBtn.includes(item.id) && true} onClick={(e) => addToBasket(e, item, index)} animated='fade'>
-                                            <Button.Content visible>Add To Basket</Button.Content>
-                                            <Button.Content hidden>{`$${item.price}`}</Button.Content>
-                                        </Button>
-                                    </div>
-                                </ul>
-                                <ul>
-                                    {open && 
-                                        <Modal 
-                                            onClose={() => setOpen(false)}
-                                            open={open === true}
-                                            trigger={<Button>Add To Basket</Button>}
-                                            >
-                                            <Modal.Header className='modal-container-text'>Congratulations</Modal.Header>
-                                            <Modal.Content >
-                                                <Modal.Description className='modal-container-text'>
-                                                    <p>Item Added To Basket</p>
-                                                </Modal.Description>
-                                            </Modal.Content>
-                                        </Modal>
-                                    }
-                                </ul>
-                            </li>   
-                        </div>
-                    )
-                })
-                :
-                filteredItems.length === 0 && value !== '' ?
-                <div style={{textAlign: 'center', paddingTop: '50px'}}>
-                    <h3>No results Found, Please refine your search</h3>
-                </div>
-                :
-                filteredItems.map((item, index) => {
-                    return (
-                        <div key={item.id} className='list-container'>
-                            <li className='item-list-container'>
-                                <ul className='list-item'>
-                                    <h3>{item.title}</h3>
-                                </ul>
-                                <ul>
-                                    <img style={{height: '100px'}} src={item.image} alt='product'/>
-                                </ul>
-                                <ul>
-                                    Price: ${item.price}
-                                </ul>
-                                <ul>
-                                    <div style={{width: '50%'}}>
-                                       {item.description} 
-                                    </div>
-                                    <div className='add-to-basket-container'>
-                                        <Button disabled={disabledBtn.includes(item.id) && true} onClick={(e) => addToBasket(e, item, index)} animated='fade'>
-                                            <Button.Content visible>Add To Basket</Button.Content>
-                                            <Button.Content hidden>{`$${item.price}`}</Button.Content>
-                                        </Button>
-                                    </div>
-                                </ul>
-                                {open && 
-                                        <Modal
-                                            onClose={() => setOpen(false)}
-                                            open={open === true}
-                                            trigger={<Button>Add To Basket</Button>}
-                                            >
-                                            <Modal.Header className='modal-container-text'>Congratulations</Modal.Header>
-                                            <Modal.Content >
-                                                <Modal.Description className='modal-container-text'>
-                                                    <p>Item Added To Basket</p>
-                                                </Modal.Description>
-                                            </Modal.Content>
-                                        </Modal>
-                                    }
-                            </li>     
-                        </div>
-                    )
-                })
-                }
+                {filteredItems.length === 0 && value === '' 
+                    ? (
+                        newItems.map((item, index) => {
+                            return (
+                                <div key={item.id} className='list-container'>
+                                    <li className='item-list-container'>
+                                        <ul className='list-item'>
+                                            <h3>{item.title}</h3>
+                                        </ul>
+                                        <ul>
+                                            <img style={{height: '100px'}} src={item.image} alt='product'/>
+                                        </ul>
+                                        <ul>
+                                            Price: ${item.price}
+                                        </ul>
+                                        <ul>
+                                            <div style={{width: '50%'}}>
+                                            {item.description} 
+                                            </div>
+                                            <div className='add-to-basket-container'>
+                                                <Button disabled={disabledBtn.includes(item.id) && true} onClick={(e) => addToBasket(e, item, index)} animated='fade'>
+                                                    <Button.Content visible>Add To Basket</Button.Content>
+                                                    <Button.Content hidden>{`$${item.price}`}</Button.Content>
+                                                </Button>
+                                            </div>
+                                        </ul>
+                                    </li>   
+                                </div>
+                            )
+                        }))
+                    :(
+                        filteredItems.length === 0 && value !== '' 
+                            ?(
+                                <div style={{textAlign: 'center', paddingTop: '50px'}}>
+                                    <h3>No results Found, Please refine your search</h3>
+                                </div>
+                            )
+                            :(
+                                filteredItems.map((item, index) => {
+                                    return (
+                                        <div key={item.id} className='list-container'>
+                                            <li className='item-list-container'>
+                                                <ul className='list-item'>
+                                                    <h3>{item.title}</h3>
+                                                </ul>
+                                                <ul>
+                                                    <img style={{height: '100px'}} src={item.image} alt='product'/>
+                                                </ul>
+                                                <ul>
+                                                    Price: ${item.price}
+                                                </ul>
+                                                <ul>
+                                                    <div style={{width: '50%'}}>
+                                                    {item.description} 
+                                                    </div>
+                                                    <div className='add-to-basket-container'>
+                                                        <Button disabled={disabledBtn.includes(item.id) && true} onClick={(e) => addToBasket(e, item, index)} animated='fade'>
+                                                            <Button.Content visible>Add To Basket</Button.Content>
+                                                            <Button.Content hidden>{`$${item.price}`}</Button.Content>
+                                                        </Button>
+                                                    </div>
+                                                </ul>
+                                            </li>     
+                                        </div>
+                                    )
+                                })
+                            )
+                        )
+                    }
+                    {modalOpen && 
+                        <Modal 
+                            onClose={() => setModalOpen(false)}
+                            open={modalOpen}
+                            >
+                            <Modal.Header className='modal-container-text'>Congratulations</Modal.Header>
+                            <Modal.Content >
+                                <Modal.Description className='modal-container-text'>
+                                    <p>Item Added To Basket</p>
+                                </Modal.Description>
+                            </Modal.Content>
+                        </Modal>
+                    }
             </div>
         </div>
     )

@@ -9,6 +9,7 @@ import { Form } from 'semantic-ui-react';
 export default function CheckoutPage() {
     const [items, setItems] = useState<[] | Item[]>([])
 
+
     const userContext = useContext(UserContext);
     
 
@@ -19,16 +20,15 @@ export default function CheckoutPage() {
     }
     }, [userContext])
 
-
     return (
         <div>
             <h2>Basket</h2>
             {items.length ? items.map((item) => {
-                    return (
-                        <div key={item.name}>
-                        <p>{item.name}</p>
-                        </div>
-                    )
+                return (
+                    <div key={item.name}>
+                    <p>{item.name}</p>
+                    </div>
+                )
             })
             :
             <p>Nothing to buy here</p>}

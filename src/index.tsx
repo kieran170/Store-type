@@ -4,9 +4,8 @@ import reportWebVitals from './reportWebVitals';
 import UserProviderComp from './components/UserProviderComp'
 
 ReactDOM.render(
-  <React.StrictMode>
-    <UserProviderComp />
-  </React.StrictMode>,
+    <UserProviderComp />,
+
   document.getElementById('root')
 );
 
