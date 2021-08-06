@@ -8,11 +8,8 @@ import { Form } from 'semantic-ui-react';
 
 export default function CheckoutPage() {
     const [items, setItems] = useState<[] | Item[]>([])
-
-
     const userContext = useContext(UserContext);
     
-
     useEffect(() => {
         if(userContext){
           setItems(Object.values(userContext?.state.basket));
